@@ -1,0 +1,61 @@
+.explore-container {
+  padding: 40px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.explore-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.explore-form input,
+.explore-form select {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.explore-form button {
+  background-color: #5e2ca5;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.hotel-section {
+  margin-top: 30px;
+}
+
+.hotel-card {
+  background-color: #f4f4f4;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+  
+  .explore-results h3 {
+    font-size: 1.3rem;
+    color: #333;
+    margin-top: 20px;
+  }
+  
+  .attractions-section {
+    margin-top: 30px;
+  }
+  
+  .attraction-card {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  

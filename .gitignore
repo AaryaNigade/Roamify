@@ -1,0 +1,12 @@
+# Ignore node_modules in all folders
+**/node_modules/
+**/dist/
+**/build/
+
+# Env & logs
+.env
+*.log
+
+# OS & IDE
+.DS_Store
+.vscode/

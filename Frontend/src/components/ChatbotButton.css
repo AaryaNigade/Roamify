@@ -1,0 +1,19 @@
+.chatbot-floating-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #5c2d91;
+  color: white;
+  border: none;
+  padding: 15px 18px;
+  font-size: 1.8rem;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+  transition: background-color 0.3s;
+}
+
+.chatbot-floating-btn:hover {
+  background-color: #4a2075;
+}
