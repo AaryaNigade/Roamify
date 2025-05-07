@@ -1,60 +1,115 @@
+/* General Styles for the Home Page */
 .home-wrapper {
   position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
+.home-wrapper .carousel .slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(60%);
+}
+
+/* Home Overlay Content */
 .home-overlay-content {
   position: absolute;
-  top: 20%;
-  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   text-align: center;
-  color: white;
+  color: white; /* Ensure text is white */
+  padding: 20px;
+  z-index: 10;
 }
 
 .home-overlay-content h1 {
-  font-size: 3rem;
-  margin-bottom: 10px;
+  font-size: 3.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+  color: white; /* Keep heading text white */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6); /* Keeps text legible */
 }
 
 .home-overlay-content p {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-bottom: 30px;
+  color: white; /* Ensure paragraph text stays white */
+  font-style: italic;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6); /* Keeps text legible */
 }
 
+/* Search Bar Styles */
 .search-bar-container {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
+  margin-bottom: 30px;
 }
 
 .search-input {
-  padding: 10px;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 25px;
+  outline: none;
   width: 300px;
-  border-radius: 5px;
-  border: none;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #800080; /* Purple focus border */
 }
 
 .search-button {
-  padding: 10px 20px;
+  padding: 12px 25px;
+  background-color: #800080;
   border: none;
-  background-color: #5c2d91;
+  border-radius: 25px;
   color: white;
-  border-radius: 5px;
+  font-size: 1rem;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
+.search-button:hover {
+  background-color: #5b006c;
+}
+
+/* Explore Button Styles */
 .explore-button {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #5c2d91;
+  padding: 15px 30px;
+  background-color: #800080;
+  border: none;
+  border-radius: 25px;
   color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
 }
 
 .explore-button:hover {
-  background-color: #5c2d91;
+  background-color: #5b006c;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .home-overlay-content h1 {
+    font-size: 2.5rem;
+  }
+  .home-overlay-content p {
+    font-size: 1.2rem;
+  }
+  .search-input {
+    width: 80%;
+  }
+  .explore-button {
+    font-size: 1rem;
+  }
 }

@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Explore from "./components/Explore";
+import DestinationDetails from "./components/DestinationDetails";
 import ChatbotButton from "./components/ChatbotButton";
 import ChatbotModal from "./components/ChatbotModal";
 import "./App.css";
@@ -14,6 +15,7 @@ function App() {
   const [user, setUser] = useState(null);
 
   const toggleChatbot = () => {
+    console.log("Toggling Chatbot...");
     setShowChatbot(!showChatbot);
   };
 
@@ -27,7 +29,7 @@ function App() {
           console.error("Error parsing user from localStorage:", error);
           localStorage.removeItem("user");
         }
-      }      
+      }
     }
   }, []);
 
@@ -40,6 +42,7 @@ function App() {
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/explore" element={<Explore />} />
+          <Route path="/destination/:name" element={<DestinationDetails />} />
         </Routes>
         <ChatbotButton toggleChatbot={toggleChatbot} />
         {showChatbot && <ChatbotModal toggleChatbot={toggleChatbot} />}

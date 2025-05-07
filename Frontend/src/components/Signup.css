@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("C:\Users\aarya\OneDrive\Desktop\Study\PBEL\Roamify\Frontend\public\images\home.jpg");
+  background-image: url('../assets/home.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

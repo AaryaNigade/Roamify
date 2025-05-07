@@ -6,13 +6,8 @@ import LoginModal from "./LoginModal";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const [searchTerm, setSearchTerm] = useState("");
   const [showLogin, setShowLogin] = useState(false);
   const navigate = useNavigate();
-
-  const handleSearch = () => {
-    alert(`Searching for: ${searchTerm}`);
-  };
 
   const handleExploreClick = () => {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -46,19 +41,6 @@ const Home = () => {
       <div className="home-overlay-content">
         <h1>Roamify</h1>
         <p>Travel wide, let Roamify be your guide.</p>
-
-        <div className="search-bar-container">
-          <input
-            type="text"
-            placeholder="Search destination..."
-            className="search-input"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button className="search-button" onClick={handleSearch}>
-            Search
-          </button>
-        </div>
 
         <button className="explore-button" onClick={handleExploreClick}>
           Explore Now

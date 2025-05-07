@@ -1,180 +1,125 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate
 import "./Explore.css";
 
+const destinations = [
+  {
+    name: "Mumbai",
+    category: "City",
+    description: "Gateway of India, Marine Drive",
+    image: "/images/mumbai.jpg",
+    details: ["Gateway of India", "Marine Drive", "Elephanta Caves", "Juhu Beach"],
+  },
+  {
+    name: "Lonavala",
+    category: "Nature",
+    description: "Karla Caves, Bhushi Dam",
+    image: "/images/lonavala.jpg",
+    details: ["Karla Caves", "Bhushi Dam", "Tiger’s Leap", "Lonavala Lake"],
+  },
+  {
+    name: "Mahabaleshwar",
+    category: "Hills",
+    description: "Strawberry farms, Arthur Seat Point",
+    image: "/images/mahabaleshwar.jpg",
+    details: ["Venna Lake", "Arthur Seat", "Mapro Garden", "Wilson Point"],
+  },
+  {
+    name: "Pune",
+    category: "City",
+    description: "Shaniwar Wada, Aga Khan Palace",
+    image: "/images/pune.jpg",
+    details: ["Shaniwar Wada", "Aga Khan Palace", "Sinhagad Fort", "Pataleshwar Cave Temple"],
+  },
+  {
+    name: "Nashik",
+    category: "Nature",
+    description: "Trimbakeshwar Temple, Sula Vineyards",
+    image: "/images/nashik.jpg",
+    details: ["Trimbakeshwar Temple", "Sula Vineyards", "Panchvati", "Anjneri Hills"],
+  },
+  {
+    name: "Alibaug",
+    category: "Beach",
+    description: "Alibaug Beach, Kolaba Fort",
+    image: "/images/alibag.jpg",
+    details: ["Alibaug Beach", "Kolaba Fort", "Nagaon Beach", "Kanakeshwar Forest"],
+  },
+  {
+    name: "Ratnagiri",
+    category: "Beach",
+    description: "Ganpatipule Beach, Ratnadurg Fort",
+    image: "/images/ratnagiri.jpg",
+    details: ["Ganpatipule Beach", "Ratnadurg Fort", "Thibaw Palace", "Jaigad Fort"],
+  },
+  {
+    name: "Aurangabad",
+    category: "Historical",
+    description: "Ajanta and Ellora Caves, Bibi Ka Maqbara",
+    image: "/images/aurangabad.jpg",
+    details: ["Ajanta Caves", "Ellora Caves", "Bibi Ka Maqbara", "Daulatabad Fort"],
+  },
+];
+
 const Explore = () => {
-  const [location, setLocation] = useState("");
-  const [groupType, setGroupType] = useState("solo");
-  const [budget, setBudget] = useState("low");
-  const [days, setDays] = useState(1);
-  const [hotels, setHotels] = useState([]);
-  const [attractions, setAttractions] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState([]);
 
-  const OPENTRIPMAP_API_KEY = "5ae2e3f221c38a28845f05b60aa3621d12aaf4d14018631e56a0b2cf"; // Replace with your actual API key
+  const navigate = useNavigate(); // ✅ Use navigate for redirection
 
-  const fetchHotels = async () => {
-    try {
-      const response = await axios.get(
-        `https://api.makcorps.com/free?city=${location}`
-      );
-      setHotels(response.data);
-    } catch (err) {
-      console.error("Error fetching hotels:", err);
-    }
+  const handleCheckboxChange = (category) => {
+    setFilter((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category]
+    );
   };
 
-  const fetchAttractions = async () => {
-    try {
-      // Step 1: Get coordinates of the city
-      const geoRes = await axios.get(
-        `https://api.opentripmap.com/0.1/en/places/geoname`,
-        {
-          params: {
-            name: location,
-            apikey: OPENTRIPMAP_API_KEY,
-          },
-        }
-      );
+  const filteredDestinations = destinations.filter((d) => {
+    const matchSearch = d.name.toLowerCase().includes(search.toLowerCase());
+    const matchFilter = filter.length === 0 || filter.includes(d.category);
+    return matchSearch && matchFilter;
+  });
 
-      const { lat, lon } = geoRes.data;
-
-      // Step 2: Get list of attractions around the city
-      const attrRes = await axios.get(
-        `https://api.opentripmap.com/0.1/en/places/radius`,
-        {
-          params: {
-            radius: 10000, // 10 km
-            lon: lon,
-            lat: lat,
-            kinds: "interesting_places",
-            limit: 10,
-            apikey: OPENTRIPMAP_API_KEY,
-          },
-        }
-      );
-
-      const attractionsList = attrRes.data.features;
-
-      // Step 3: Fetch details for each attraction
-      const detailedAttractions = await Promise.all(
-        attractionsList.map(async (item) => {
-          const xid = item.properties.xid;
-          const detailRes = await axios.get(
-            `https://api.opentripmap.com/0.1/en/places/xid/${xid}`,
-            {
-              params: {
-                apikey: OPENTRIPMAP_API_KEY,
-              },
-            }
-          );
-          return detailRes.data;
-        })
-      );
-
-      setAttractions(detailedAttractions);
-    } catch (err) {
-      console.error("Error fetching attractions:", err);
-    }
-  };
-
-  const handleExplore = async () => {
-    setLoading(true);
-    setError("");
-    setHotels([]);
-    setAttractions([]);
-
-    try {
-      await Promise.all([fetchHotels(), fetchAttractions()]);
-    } catch (err) {
-      setError("Failed to fetch data. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+  const handleViewMore = (name) => {
+    navigate(`/destination/${name}`); // ✅ Navigate to the details page
   };
 
   return (
-    <div className="explore-container">
-      <h1>Explore Travel Options</h1>
-      <div className="explore-form">
+    <div className="explore-page">
+      <h1>Explore Maharashtra</h1>
+
+      <div className="controls">
         <input
           type="text"
-          placeholder="Enter destination"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
+          placeholder="Search destination..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
-        <select value={groupType} onChange={(e) => setGroupType(e.target.value)}>
-          <option value="solo">Solo</option>
-          <option value="family">Family</option>
-          <option value="friends">Friends</option>
-          <option value="couple">Couple</option>
-        </select>
-        <select value={budget} onChange={(e) => setBudget(e.target.value)}>
-          <option value="low">Low Budget</option>
-          <option value="medium">Medium Budget</option>
-          <option value="high">High Budget</option>
-        </select>
-        <input
-          type="number"
-          min="1"
-          placeholder="Trip Days"
-          value={days}
-          onChange={(e) => setDays(e.target.value)}
-        />
-        <button onClick={handleExplore}>Explore Now</button>
+
+        <div className="filters">
+          {["Nature", "City", "Hills", "Beach", "Historical"].map((cat) => (
+            <label key={cat}>
+              <input
+                type="checkbox"
+                checked={filter.includes(cat)}
+                onChange={() => handleCheckboxChange(cat)}
+              />
+              {cat}
+            </label>
+          ))}
+        </div>
       </div>
 
-      {loading && <p>Loading data...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      {/* HOTEL SECTION */}
-      <div className="hotel-section">
-        <h2>Hotel Recommendations</h2>
-        {hotels.length > 0 ? (
-          hotels.map((hotel, index) => (
-            <div key={index} className="hotel-card">
-              <h3>{hotel[0].hotelName}</h3>
-              <ul>
-                {hotel[1].map((vendor, idx) => (
-                  <li key={idx}>
-                    {vendor[`vendor${idx + 1}`]}: $
-                    {vendor[`price${idx + 1}`]} + Tax $
-                    {vendor[`tax${idx + 1}`]}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))
-        ) : (
-          !loading && <p>No hotels found yet.</p>
-        )}
-      </div>
-
-      {/* ATTRACTIONS SECTION */}
-      <div className="attractions-section">
-        <h2>Top Attractions</h2>
-        {attractions.length > 0 ? (
-          attractions.map((place, index) => (
-            <div key={index} className="attraction-card">
-              <h3>{place.name}</h3>
-              {place.preview && (
-                <img
-                  src={place.preview.source}
-                  alt={place.name}
-                  width="300"
-                  height="200"
-                />
-              )}
-              <p>{place.wikipedia_extracts?.text || "No description available."}</p>
-              <p>
-                <strong>Category:</strong> {place.kinds}
-              </p>
-            </div>
-          ))
-        ) : (
-          !loading && <p>No attractions found yet.</p>
-        )}
+      <div className="cards-container">
+        {filteredDestinations.map((d, i) => (
+          <div className="destination-card" key={i}>
+            <img src={d.image} alt={d.name} />
+            <h3>{d.name}</h3>
+            <p>{d.description}</p>
+            <button onClick={() => handleViewMore(d.name)}>View More</button> {/* ✅ Correct the button */}
+          </div>
+        ))}
       </div>
     </div>
   );
